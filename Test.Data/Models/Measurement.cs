@@ -13,5 +13,25 @@ namespace Test.Data.Models
         public DateTime Date { get; set; }
         public decimal Gap { get; set; }
         public decimal Flush { get; set; }
+
+        public virtual Vehicle Vehicle { get; set; }
+        public virtual Shop Shop { get; set; }
+        public virtual MeasurementPoint MeasurementPoint { get; set; }
+
+    }
+
+    public static class MeasurementHelper
+    {
+        public static Measurement SetVehicle(this Measurement measurement, Vehicle vehicle)
+        {
+            measurement.Vehicle = vehicle;
+            return measurement;
+        }
+
+        public static Measurement SetMeasurementPoint(this Measurement measurement, MeasurementPoint measurementPoint)
+        {
+            measurement.MeasurementPoint = measurementPoint;
+            return measurement;
+        }
     }
 }
