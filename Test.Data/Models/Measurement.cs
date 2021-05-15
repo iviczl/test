@@ -11,8 +11,8 @@ namespace Test.Data.Models
         public int ShopId { get; set; }
         public int MeasurementPointId { get; set; }
         public DateTime Date { get; set; }
-        public decimal Gap { get; set; }
-        public decimal Flush { get; set; }
+        public decimal? Gap { get; set; }
+        public decimal? Flush { get; set; }
 
         public virtual Vehicle Vehicle { get; set; }
         public virtual Shop Shop { get; set; }
