@@ -4,6 +4,7 @@ using Test.Data.Models;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace Test.Data
 {
@@ -14,22 +15,21 @@ namespace Test.Data
 		private List<Shop> _shops { get; set; }
 		private List<Measurement> _measurements { get; set; }
 
-		public DataContext()
+		public DataContext(string path)
 		{
-			string vehiclesPath = null;
-			var vehiclesJson = JArray.Parse(File.ReadAllText(vehiclesPath));
-            string measurementPointPath = null;
-            var measurementPointJson = JArray.Parse(File.ReadAllText(measurementPointPath));
-            string shopPath = null;
-            var shopJson = JArray.Parse(File.ReadAllText(shopPath));
-            string measurementPath = null;
-            var measurementJson = JArray.Parse(File.ReadAllText(measurementPath));
-
+			var vehiclesJson = JArray.Parse(File.ReadAllText(path + @"\vehicle.json"));
+			_vehicles = vehiclesJson.Select(v => JsonConvert.DeserializeObject<Vehicle>(v.ToString())).ToList();
+            var measurementPointJson = JArray.Parse(File.ReadAllText(path + @"\measurementPoint.json"));
+			_measurementPoints = measurementPointJson.Select(mp => JsonConvert.DeserializeObject<MeasurementPoint>(mp.ToString())).ToList();
+            var shopJson = JArray.Parse(File.ReadAllText(path + @"\shop.json"));
+			_shops = shopJson.Select(s => JsonConvert.DeserializeObject<Shop>(s.ToString())).ToList();
+            var measurementJson = JArray.Parse(File.ReadAllText(path + @"\measurement.json"));
+			_measurements = measurementJson.Select(m => JsonConvert.DeserializeObject<Measurement>(m.ToString())).ToList();
 		}
 
-		public IQueryable<Vehicle> Vehicles { get; set; }
-		public IQueryable<MeasurementPoint> MeasurementPoints { get; set; }
-		public IQueryable<Shop> Shops { get; set; }
-		public IQueryable<Measurement> Measurements { get; set; }
+		public IList<Vehicle> Vehicles { get; set; }
+		public IList<MeasurementPoint> MeasurementPoints { get; set; }
+		public IList<Shop> Shops { get; set; }
+		public IList<Measurement> Measurements { get; set; }
 	}
 }

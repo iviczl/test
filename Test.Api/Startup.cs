@@ -10,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Test.Data;
+using Test.Data.Repositories;
 
 namespace Test.Api
 {
@@ -26,6 +28,8 @@ namespace Test.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddScoped(c => new DataContext(Configuration.GetValue<string>("DataPath")));
+            services.AddScoped<IMeasurementRepository, MeasurementRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

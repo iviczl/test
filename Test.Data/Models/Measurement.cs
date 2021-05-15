@@ -28,6 +28,12 @@ namespace Test.Data.Models
             return measurement;
         }
 
+        public static Measurement SetShop(this Measurement measurement, Shop shop)
+        {
+            measurement.Shop = shop;
+            return measurement;
+        }
+
         public static Measurement SetMeasurementPoint(this Measurement measurement, MeasurementPoint measurementPoint)
         {
             measurement.MeasurementPoint = measurementPoint;
