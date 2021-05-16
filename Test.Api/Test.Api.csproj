@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Test.Data\Test.Data.csproj" />
+    <ProjectReference Include="..\Test.Service\Test.Service.csproj" />
   </ItemGroup>
 
 

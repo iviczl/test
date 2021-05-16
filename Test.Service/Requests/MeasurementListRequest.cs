@@ -11,5 +11,6 @@ namespace Test.Service.Requests
         public string jsn { get; set; }
         public int? shopId { get; set; }
         public int? measurementPointId { get; set; }
+        public PaginationRequest Pagination { get; set; }
     }
 }

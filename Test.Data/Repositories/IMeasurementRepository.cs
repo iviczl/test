@@ -7,7 +7,7 @@ namespace Test.Data.Repositories
 {
 	public interface IMeasurementRepository
 	{
-		List<Measurement> GetMeasurements(DateTime startDate, DateTime endDate, string jsn = null, int? shopId = null, int? measurementPointId = null);
+		IQueryable<Measurement> GetMeasurements(DateTime startDate, DateTime endDate, string jsn = null, int? shopId = null, int? measurementPointId = null);
 
 		Measurement GetMeasurement(int measurementId);
 

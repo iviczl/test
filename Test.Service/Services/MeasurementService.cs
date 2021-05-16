@@ -9,7 +9,7 @@ using Test.Services.Responses;
 
 namespace Test.Service.Services
 {
-    public class MeasurementService : IMeasurementService
+    public class MeasurementService : PaginationHandler<MeasurementItem, int>, IMeasurementService
     {
         private IMeasurementRepository _measurementRepository;
 
@@ -24,7 +24,24 @@ namespace Test.Service.Services
 
         public List<MeasurementItem> GetMeasurementList(MeasurementListRequest request)
         {
-            return _measurementRepository.GetMeasurements(request.startDate, request.endDate, request.jsn, request.shopId, request.measurementPointId).Select(m => (MeasurementItem) m).ToList();
+            var queryable = _measurementRepository.GetMeasurements(request.startDate, request.endDate, request.jsn, request.shopId, request.measurementPointId).Select(m => (MeasurementItem)m);
+            if(request.Pagination != null)
+            {
+                return GetPage(queryable,
+                    new Pagination<MeasurementItem, int>
+                    {
+                        CurrentPage = request.Pagination.CurrentPage,
+                        PageLength = request.Pagination.PageLength,
+                        RequestedPage = request.Pagination.RequestedPage,
+                        OrderFunction  = Order
+                    }); 
+            }
+            return queryable.ToList();
+        }
+
+        private int Order(MeasurementItem measurementItem)
+        {
+            return measurementItem.Id;
         }
 
         public bool RemoveMeasurement(int measurementId)

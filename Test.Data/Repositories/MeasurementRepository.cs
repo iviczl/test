@@ -9,12 +9,13 @@ namespace Test.Data.Repositories
 	public class MeasurementRepository: IMeasurementRepository
 	{
 		private DataContext _context;
-        private IList<Measurement> _queryable;
+        private IQueryable<Measurement> _queryable;
 		public MeasurementRepository(DataContext context)
 		{
 			_context = context;
             _queryable = _context.Measurements.Join(_context.Vehicles, m => m.VehicleId, v => v.VehicleId, (m, v) => m.SetVehicle(v))
-                .Join(_context.MeasurementPoints, m => m.MeasurementPointId, mp => mp.MeasurementPointId, (m, mp) => m.SetMeasurementPoint(mp)).ToList();
+                .Join(_context.MeasurementPoints, m => m.MeasurementPointId, mp => mp.MeasurementPointId, (m, mp) => m.SetMeasurementPoint(mp))
+                .Join(_context.Shops, m => m.ShopId, s => s.ShopId, (m, s) => m.SetShop(s));
         }
 
         public Measurement GetMeasurement(int measurementId)
@@ -22,7 +23,7 @@ namespace Test.Data.Repositories
             return _queryable.FirstOrDefault(m => m.Id == measurementId);
         }
 
-        public List<Measurement> GetMeasurements(DateTime startDate, DateTime endDate, string jsn = null, int? shopId = null, int? measurementPointId = null)
+        public IQueryable<Measurement> GetMeasurements(DateTime startDate, DateTime endDate, string jsn = null, int? shopId = null, int? measurementPointId = null)
         {
 			var queryable = _queryable.Where(m => m.Date >= startDate && m.Date <= endDate);
 			if(jsn != null)
@@ -38,18 +39,12 @@ namespace Test.Data.Repositories
 				queryable = queryable.Where(m => m.MeasurementPointId == measurementPointId);
             }
 
-			return queryable.ToList();
+			return queryable;
         }
 
         public bool RemoveMeasurement(int measurementId)
         {
-            var item = _context.Measurements.FirstOrDefault(m => m.Id == measurementId);
-            if(item == null)
-            {
-                return false;
-            }
-            _context.Measurements.Remove(item);
-            return true;
+            return _context.MeasurementRemove(measurementId);
         }
 
         public bool UpdateMeasurement(Measurement measurement)

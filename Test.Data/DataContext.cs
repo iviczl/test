@@ -11,11 +11,11 @@ namespace Test.Data
 	public class DataContext
 	{
         private List<Vehicle> _vehicles { get; set; }
-		private List<MeasurementPoint> _measurementPoints { get; set; }
-		private List<Shop> _shops { get; set; }
-		private List<Measurement> _measurements { get; set; }
+        private List<MeasurementPoint> _measurementPoints { get; set; }
+        private List<Shop> _shops { get; set; }
+        private List<Measurement> _measurements { get; set; }
 
-		public DataContext(string path)
+        public DataContext(string path)
 		{
 			var vehiclesJson = JArray.Parse(File.ReadAllText(path + @"\vehicle.json"));
 			_vehicles = vehiclesJson.Select(v => JsonConvert.DeserializeObject<Vehicle>(v.ToString())).ToList();
@@ -27,9 +27,19 @@ namespace Test.Data
 			_measurements = measurementJson.Select(m => JsonConvert.DeserializeObject<Measurement>(m.ToString())).ToList();
 		}
 
-		public IList<Vehicle> Vehicles { get; set; }
-		public IList<MeasurementPoint> MeasurementPoints { get; set; }
-		public IList<Shop> Shops { get; set; }
-		public IList<Measurement> Measurements { get; set; }
+        public IQueryable<Vehicle> Vehicles => _vehicles.AsQueryable();
+        public IQueryable<MeasurementPoint> MeasurementPoints => _measurementPoints.AsQueryable();
+        public IQueryable<Shop> Shops => _shops.AsQueryable();
+        public IQueryable<Measurement> Measurements => _measurements.AsQueryable();
+		public bool MeasurementRemove(int measurementId)
+        {
+            var item = _measurements.FirstOrDefault(m => m.Id == measurementId);
+            if (item == null)
+            {
+                return false;
+            }
+            _measurements.Remove(item);
+            return true;
+        }
 	}
 }
