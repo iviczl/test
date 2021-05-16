@@ -31,7 +31,7 @@ namespace Test.Api.Controllers
             }
             catch(Exception ex)
             {
-                BadRequest(ex);
+                return StatusCode(500, ex);
             }
 
             return Ok(result);
@@ -47,9 +47,39 @@ namespace Test.Api.Controllers
             }
             catch(Exception ex)
             {
-                BadRequest(ex);
+                return StatusCode(500, ex);
             }
             return Ok(item);
+        }
+
+        [HttpPost("update")]
+        public IActionResult Update(MeasurementUpdateRequest request)
+        {
+            bool result;
+            try
+            {
+                result = _measurementService.UpdateMeasurement(request);
+            }
+            catch(Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+            return Ok(result);
+        }
+
+        [HttpPost("remove")]
+        public IActionResult Remove(int measurementId)
+        {
+            bool result;
+            try
+            {
+                result = _measurementService.RemoveMeasurement(measurementId);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex);
+            }
+            return Ok(result);
         }
     }
 }

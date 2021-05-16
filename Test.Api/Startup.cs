@@ -12,6 +12,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Test.Data;
 using Test.Data.Repositories;
+using Test.Service;
+using Test.Service.Services;
 
 namespace Test.Api
 {
@@ -28,8 +30,13 @@ namespace Test.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddScoped(c => new DataContext(Configuration.GetValue<string>("DataPath")));
+            services.AddScoped(c => new DataContext(AppContext.BaseDirectory + @"\json")); //Configuration.GetValue<string>("DataPath")
             services.AddScoped<IMeasurementRepository, MeasurementRepository>();
+            services.AddScoped<IShopRepository, ShopRepository>();
+            services.AddScoped<IMeasurementPointRepository, MeasurementPointRepository>();
+            services.AddScoped<IMeasurementService, MeasurementService>();
+            services.AddScoped<IShopService, ShopService>();
+            services.AddScoped<IMeasurementPointService, MeasurementPointService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
