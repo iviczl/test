@@ -6,11 +6,11 @@ namespace Test.Service.Requests
 {
     public class MeasurementListRequest
     {
-        public DateTime startDate { get; set; }
-        public DateTime endDate { get; set; }
-        public string jsn { get; set; }
-        public int? shopId { get; set; }
-        public int? measurementPointId { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public string Jsn { get; set; }
+        public int? ShopId { get; set; }
+        public int? MeasurementPointId { get; set; }
         public PaginationRequest Pagination { get; set; }
     }
 }

@@ -24,7 +24,7 @@ namespace Test.Service.Services
 
         public List<MeasurementItem> GetMeasurementList(MeasurementListRequest request)
         {
-            var queryable = _measurementRepository.GetMeasurements(request.startDate, request.endDate, request.jsn, request.shopId, request.measurementPointId).Select(m => (MeasurementItem)m);
+            var queryable = _measurementRepository.GetMeasurements(request.StartDate, request.EndDate, request.Jsn, request.ShopId, request.MeasurementPointId).Select(m => (MeasurementItem)m);
             if(request.Pagination != null)
             {
                 return GetPage(queryable,
