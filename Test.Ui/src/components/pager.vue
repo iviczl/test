@@ -1,7 +1,7 @@
 <template>
-<nav v-if="isVisible() && $locale.uiTranslationsLoaded" class="pagination is-small is-centered" role="navigation" aria-label="pagination">
-  <a class="pagination-previous" :disabled="!hasPrevious()" @click="previous">{{ $locale.t('previous') }}</a>
-  <a class="pagination-next" :disabled="!hasNext()" @click="next">{{ $locale.t('next') }}</a>
+<nav v-if="isVisible()" class="pagination is-small is-centered" role="navigation" aria-label="pagination">
+  <a class="pagination-previous" :disabled="!hasPrevious()" @click="previous">előző</a>
+  <a class="pagination-next" :disabled="!hasNext()" @click="next">következő</a>
   <ul class="pagination-list">
 		<li><a class="pagination-link">{{ page }}</a></li>
 	</ul>

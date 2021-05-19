@@ -1,29 +1,45 @@
 <template>
-    <grid-table v-if="measurementData.length > 0" key="measurements" ref="data" :columns="tableCols()" :rows="tableRows()" 
-					:tableHeight="340"  :fontSize="0.8" />
+    <div>
+        <pager :totalCount="pagination.totalItemCount" :pageSize="pagination.pageSize" :page="pagination.page" @page-previous="getDataPage" @page-next="getDataPage"/>
+        <grid-table v-if="measurementData.length > 0" key="measurements" ref="data" :columns="tableCols()" :rows="tableRows()" :selectable="true" 
+            @selected-row-changed="selectRow($event)" :tableHeight="340"  :fontSize="0.8" />
+    </div>
 </template>
 
 <script>
 import { measurementService } from '@/modules/services.js';
+import pager from '@/components/pager.vue';
 import gridTable from '@/components/gridTable.vue';
 import { backByDays } from '@/modules/dateHelper.js';
 export default {
     name: 'home',
     components: {
-        'grid-table': gridTable
+        'grid-table': gridTable,
+        pager
     },
     data() {
         return {
-            startDate: backByDays(10, this.endDate),
+            startDate: backByDays(10000, this.endDate),
             endDate: new Date(),
             jsn: null,
             shopId: null,
             measurementPointId: null,
-            pageNumber: 1,
+            pagination: { totalItemCount: 0, pageSize: 50, page: 1, orderBy: 'id' },
             measurementData: []
         };
     },
     methods: {
+        selectRow(row) {
+
+
+        },
+        async getDataPage(requestedPage) {
+			if(requestedPage < 1 || requestedPage > Math.ceil(this.pagination.totalCount / this.pagination.pageSize) || this.pagination.page == requestedPage) {
+				return;
+			}
+			this.pagination.page = requestedPage;
+			await this.refresh();
+		},
         tableCols() { 
             let cols = [
                 { name: 'id', title: 'Mérés azonosítója', type: 'number', width: 4, fontSize: 0.9 },
@@ -48,10 +64,12 @@ export default {
 			});
         },
         async refresh() {
-			let dataPromise = measurementService.getMeasurements(this.startDate, this.endDate, this.jsn, this.shopId, this.measurementPointId, this.pageNumber);
+			let dataPromise = measurementService.getMeasurements(this.startDate, this.endDate, this.jsn, this.shopId, this.measurementPointId, this.pagination.page, 
+                this.pagination.pageSize, this.pagination.orderBy);
 			await Promise.all([dataPromise]);
 			dataPromise.then(r => {
-				this.measurementData = r.sort((a, b) => a.date.localeCompare(b.date)); 
+				this.measurementData = r.data.sort((a, b) => a.date.localeCompare(b.date)); 
+                this.pagination = r.pagination;
 			});
         }
 

@@ -1,5 +1,9 @@
 <template>
   <div id="app">
+    <p>
+      <router-link to="/">Kezdőlap</router-link>
+      <router-link to="/about">About</router-link>
+    </p>
     <router-view />
   </div>
 </template>

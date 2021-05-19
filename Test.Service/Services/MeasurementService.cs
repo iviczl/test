@@ -5,6 +5,7 @@ using System.Text;
 using Test.Data.Models;
 using Test.Data.Repositories;
 using Test.Service.Requests;
+using Test.Service.Responses;
 using Test.Services.Responses;
 
 namespace Test.Service.Services
@@ -22,24 +23,35 @@ namespace Test.Service.Services
             return _measurementRepository.GetMeasurement(measurementId);
         }
 
-        public List<MeasurementItem> GetMeasurementList(MeasurementListRequest request)
+        public PageResponse<MeasurementItem> GetMeasurementList(MeasurementListRequest request)
         {
+            PageResponse<MeasurementItem> response = new PageResponse<MeasurementItem>();
             var queryable = _measurementRepository.GetMeasurements(request.Query.StartDate, request.Query.EndDate, request.Query.Jsn, request.Query.ShopId, request.Query.MeasurementPointId).Select(m => (MeasurementItem)m);
             if(request.Pagination != null)
             {
-                return GetPage(queryable,
+                Func<MeasurementItem, int> orderFunction = null;
+                if(request.Pagination.OrderBy == "id")
+                {
+                    orderFunction = OrderById;
+                }
+                PaginationResponse paginationResponse;
+                response.Data = GetPage(queryable,
                     new Pagination<MeasurementItem, int>
                     {
                         CurrentPage = request.Pagination.CurrentPage,
                         PageLength = request.Pagination.PageSize,
                         RequestedPage = request.Pagination.Page,
-                        OrderFunction  = Order
-                    }); 
+                        OrderFunction  = orderFunction
+                    }, out paginationResponse);
+                response.Pagination = paginationResponse;
+                response.Pagination.OrderBy = request.Pagination.OrderBy;
+                return response;
             }
-            return queryable.ToList();
+            response.Data = queryable.ToList();
+            return response;
         }
 
-        private int Order(MeasurementItem measurementItem)
+        private int OrderById(MeasurementItem measurementItem)
         {
             return measurementItem.Id;
         }

@@ -3,8 +3,8 @@ import { updateEntity } from '@/modules/dataPutter.js';
 import { getData, getEntity } from '@/modules/dataGetter';
 
 let measurementService = {
-  async getMeasurements(startDate, endDate, jsn, shopId, measurementPointId, page) {
-    return listGetter.getGeneralList('measurement/list', { startDate, endDate, jsn, shopId, measurementPointId }, true, page);
+  async getMeasurements(startDate, endDate, jsn, shopId, measurementPointId, page, pageSize, orderBy) {
+    return listGetter.getGeneralList('measurement/list', { startDate, endDate, jsn, shopId, measurementPointId }, true, page, pageSize, orderBy);
   },
   async getMeasurement(measurementId) {
     return getEntity(`measurement?id=${measurementId}`);

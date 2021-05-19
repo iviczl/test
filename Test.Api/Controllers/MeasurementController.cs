@@ -24,17 +24,14 @@ namespace Test.Api.Controllers
         [HttpPost("list")]
         public IActionResult List(MeasurementListRequest request)
         {
-            List<MeasurementItem> result = null;
             try
             {
-                result = _measurementService.GetMeasurementList(request);
+                return Ok(_measurementService.GetMeasurementList(request));
             }
             catch(Exception ex)
             {
                 return StatusCode(500, ex);
             }
-
-            return Ok(result);
         }
 
         [HttpGet("{id}")]

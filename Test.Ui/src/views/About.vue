@@ -1,11 +1,12 @@
 <template>
-    <div>About</div>
+    <div>
+        <h1>Teszt feladat</h1>
+        <p> © 2021 Ivicz László</p>
+    </div>
 </template>
 
 <script>
-// import { measurementService } from '@/modules/services.js';
-// import gridTable from '@/components/gridTable.vue';
-// import { backByDays } from '@/modules/dateHelper.js';
+
 export default {
     name: 'about'
 }

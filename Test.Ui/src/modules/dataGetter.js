@@ -8,9 +8,9 @@ let getList = async function(url, data, maxItems, getAnyway = false) {
   return { count: response.pagination.totalCount, data: response.result, aggregation: response.aggregation };
 }
 
-let getListPage = async function(url, data, pageSize, page = 1) {
+let getListPage = async function(url, data, pageSize, page = 1, orderBy = null) {
   let uri = window.Config.serviceUrl + url;
-  let request = {query: data, pagination: {page: page, pageSize: pageSize}};
+  let request = {query: data, pagination: { page, pageSize, orderBy }};
   let headers = {};
   return await postJson(uri, request, headers);
 }
