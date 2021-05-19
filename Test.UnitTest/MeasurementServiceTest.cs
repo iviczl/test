@@ -26,9 +26,12 @@ namespace Test.UnitTest
         {
             var measurements = _measurementService.GetMeasurementList(new MeasurementListRequest
             {
-                StartDate = DateTime.Today.AddDays(-10000),
-                EndDate = DateTime.Today,
-                Pagination = new PaginationRequest { OrderBy = "Id", PageLength = 50, RequestedPage = 5 }
+                Query = new MeasurementListQuery
+                {
+                    StartDate = DateTime.Today.AddDays(-10000),
+                    EndDate = DateTime.Today
+                },
+                Pagination = new PaginationRequest { OrderBy = "Id", PageSize = 50, Page = 5 }
             });
             Assert.True(measurements.Count == 50);
         }
@@ -37,7 +40,8 @@ namespace Test.UnitTest
         [Fact]
         public void GetMeasurementItems()
         {
-            var measurements = _measurementService.GetMeasurementList(new MeasurementListRequest { StartDate = DateTime.Today.AddDays(-10000), EndDate = DateTime.Today });
+            var measurements = _measurementService.GetMeasurementList(new MeasurementListRequest { Query = 
+                new MeasurementListQuery { StartDate = DateTime.Today.AddDays(-10000), EndDate = DateTime.Today } });
             Assert.True(measurements.Count == 1000); 
         }
 
@@ -70,9 +74,10 @@ namespace Test.UnitTest
         [Fact]
         public void RemoveMeasurement()
         {
-            var originalCount = _measurementService.GetMeasurementList(new MeasurementListRequest { StartDate = DateTime.Today.AddDays(-10000), EndDate = DateTime.Today }).Count;
+            var originalCount = _measurementService.GetMeasurementList(new MeasurementListRequest { Query = new MeasurementListQuery { StartDate = DateTime.Today.AddDays(-10000), EndDate = DateTime.Today } }).Count;
             var success = _measurementService.RemoveMeasurement(44);
-            var reducedCount = _measurementService.GetMeasurementList(new MeasurementListRequest { StartDate = DateTime.Today.AddDays(-10000), EndDate = DateTime.Today }).Count;
+            Assert.True(success);
+            var reducedCount = _measurementService.GetMeasurementList(new MeasurementListRequest { Query = new MeasurementListQuery { StartDate = DateTime.Today.AddDays(-10000), EndDate = DateTime.Today } }).Count;
             Assert.True(originalCount == 1000);
             Assert.True(reducedCount == 999);
         }

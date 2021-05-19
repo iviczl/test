@@ -48,7 +48,7 @@ namespace Test.Api
             }
 
             app.UseHttpsRedirection();
-
+            app.UseCors(builder => builder.WithOrigins(Configuration["AllowedOrigins"].Split(",")).AllowAnyMethod().AllowAnyHeader().AllowCredentials());
             app.UseRouting();
 
             app.UseAuthorization();

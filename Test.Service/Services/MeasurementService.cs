@@ -24,15 +24,15 @@ namespace Test.Service.Services
 
         public List<MeasurementItem> GetMeasurementList(MeasurementListRequest request)
         {
-            var queryable = _measurementRepository.GetMeasurements(request.StartDate, request.EndDate, request.Jsn, request.ShopId, request.MeasurementPointId).Select(m => (MeasurementItem)m);
+            var queryable = _measurementRepository.GetMeasurements(request.Query.StartDate, request.Query.EndDate, request.Query.Jsn, request.Query.ShopId, request.Query.MeasurementPointId).Select(m => (MeasurementItem)m);
             if(request.Pagination != null)
             {
                 return GetPage(queryable,
                     new Pagination<MeasurementItem, int>
                     {
                         CurrentPage = request.Pagination.CurrentPage,
-                        PageLength = request.Pagination.PageLength,
-                        RequestedPage = request.Pagination.RequestedPage,
+                        PageLength = request.Pagination.PageSize,
+                        RequestedPage = request.Pagination.Page,
                         OrderFunction  = Order
                     }); 
             }
