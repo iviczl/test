@@ -28,7 +28,7 @@ namespace Test.Data.Repositories
 			var queryable = _queryable.Where(m => m.Date >= startDate && m.Date <= endDate);
 			if(jsn != null)
             {
-				queryable = queryable.Where(m => m.Vehicle.Jsn == jsn);
+				queryable = queryable.Where(m => m.Vehicle.Jsn.StartsWith(jsn));
             }
 			if(shopId != null)
             {

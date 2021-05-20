@@ -13,4 +13,7 @@ export async function loadSettings(settingsFile) {
 	return settings;
 }
 
+export function optionList(raw, valueProperty, titleProperty) {
+	return raw.map(o => { return { value: o[valueProperty], title: o[titleProperty] }; });
+}
 

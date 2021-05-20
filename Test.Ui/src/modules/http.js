@@ -52,7 +52,7 @@ async function doFetch(url = '', data = {}, verb = 'GET', headers = {}, response
     attempt = 5;
     return result;
   } catch (error) {
-    debugger;
+    // debugger;
     if (attempt == 0) {
       throw new TypeError('error: ' + error);
     }

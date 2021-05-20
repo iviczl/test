@@ -1,3 +1,13 @@
+function parseOptions(format) {
+    const options = {}
+ 
+    format.split(';').forEach((part) => {
+        const [key, val] = part.split(':');
+        options[key.trim()] = val.trim();
+    })
+    return options;
+}
+ 
 export function formatDate(value, format, locale) {
     try {
         return new Intl.DateTimeFormat(locale, parseOptions(format)).format(value)

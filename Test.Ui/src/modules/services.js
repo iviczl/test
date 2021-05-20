@@ -19,13 +19,13 @@ let measurementService = {
 
 let measurementPointService = {
   async getMeasurementPoints() {
-    return getData('measurementpoint/list', {});
+    return getData('measurementpoint/list');
   }
 }
 
 let shopService = {
   async getShops() {
-    return getData('shop/list', {});
+    return getData('shop/list');
   }
 }
 

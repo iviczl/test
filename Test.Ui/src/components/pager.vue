@@ -1,19 +1,8 @@
 <template>
 <nav v-if="isVisible()" class="pagination is-small is-centered" role="navigation" aria-label="pagination">
-  <a class="pagination-previous" :disabled="!hasPrevious()" @click="previous">előző</a>
-  <a class="pagination-next" :disabled="!hasNext()" @click="next">következő</a>
-  <ul class="pagination-list">
-		<li><a class="pagination-link">{{ page }}</a></li>
-	</ul>
-  <!-- <ul class="pagination-list">
-    <li><a class="pagination-link" aria-label="Goto page 1">1</a></li>
-    <li><span class="pagination-ellipsis">&hellip;</span></li>
-    <li><a class="pagination-link" aria-label="Goto page 45">45</a></li>
-    <li><a class="pagination-link is-current" aria-label="Page 46" aria-current="page">46</a></li>
-    <li><a class="pagination-link" aria-label="Goto page 47">47</a></li>
-    <li><span class="pagination-ellipsis">&hellip;</span></li>
-    <li><a class="pagination-link" aria-label="Goto page 86">86</a></li>
-  </ul> -->
+  <a class="pagination-link pagination-previous" :disabled="!hasPrevious()" @click="previous">előző</a>
+  <a class="pagination-link pagination-next" :disabled="!hasNext()" @click="next">következő</a>
+	<span class="page">lap: {{ page }}</span>
 </nav>
 </template>
 <script>
@@ -56,5 +45,47 @@ export default {
 }
 </script>
 <style scoped>
-
+.page {
+	margin-left: 16px;
+	align-self: center;
+}
+.pagination {
+	display: flex;
+	flex-direction: row ;
+	font-size: 0.9rem;
+	width: fit-content;
+	justify-content: space-between;
+	overflow: hidden;
+	overflow-x: auto;
+	white-space: nowrap;
+	align-items: stretch;
+	-webkit-box-align: stretch;
+}
+.pagination-link {
+	cursor: pointer;
+  text-decoration: none;
+	-webkit-box-align: center;
+	align-items: center;
+	display: flex;
+	-webkit-box-pack: center;
+	justify-content: center;
+	padding: .5em 1em;
+	vertical-align: top;
+	border-style: solid;
+	border-width: 1px;
+	margin-bottom: 0;
+	position: relative;
+}
+.pagination-link.pagination-previous {
+	border-radius: 5px 0 0 5px;
+}
+.pagination-link.pagination-next {
+	border-radius: 0 5px 5px 0;
+}
+.pagination-link.is-active {
+	background-color: #0e3295;
+	border-color: #0e3295;
+	color: white;
+	z-index: 1;
+}
 </style>
