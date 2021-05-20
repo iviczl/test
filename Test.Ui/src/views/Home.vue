@@ -12,7 +12,7 @@
             </div>
         </div>
         <grid-table v-if="measurementData.length > 0" key="measurements" ref="data" :columns="tableCols()" :rows="tableRows()" :selectable="true" 
-                @selected-row-changed="selectRow($event)" :fontSize="0.9" />
+                @selected-row-changed="selectRow($event)" :tableHeight="600" :fontSize="0.9" />
     </div>
 </template>
 
