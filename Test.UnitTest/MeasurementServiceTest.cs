@@ -21,6 +21,44 @@ namespace Test.UnitTest
             _measurementService = new MeasurementService(measurementRepository);
         }
 
+        //[Fact] void PerformanceTest()
+        //{
+        //    var t00 = DateTime.Now;
+        //    for (int i = 0; i < 100000; i++)
+        //    {
+        //        var measurements = _measurementService.GetMeasurementList(new MeasurementListRequest
+        //        {
+        //            Query = new MeasurementListQuery
+        //            {
+        //                StartDate = DateTime.Today.AddDays(-10000),
+        //                EndDate = DateTime.Today,
+        //                //MeasurementPointId = 34
+        //                //Jsn = "WAU3"
+        //            },
+        //            Pagination = new PaginationRequest { OrderBy = "Id", PageSize = 50, Page = 5 }
+        //        });
+        //    }
+        //    var t01 = DateTime.Now - t00;
+        //    var t10 = DateTime.Now;
+        //    for (int i = 0; i < 100000; i++)
+        //    {
+        //        var measurements = _measurementService.GetMeasurementList(new MeasurementListRequest
+        //        {
+        //            Query = new MeasurementListQuery
+        //            {
+        //                StartDate = DateTime.Today.AddDays(-10000),
+        //                EndDate = DateTime.Today,
+        //                ShopId = 33
+        //                //Jsn = "WA"
+        //                //Jsn = "WAU3X111"
+        //            },
+        //            Pagination = new PaginationRequest { OrderBy = "Id", PageSize = 50, Page = 5 }
+        //        });
+        //    }
+        //    var t11 = DateTime.Now - t10;
+        //            Assert.True(t11 > t01 * 1.1);
+        //}
+
         [Fact]
         public void GetMeasurementPage()
         {
